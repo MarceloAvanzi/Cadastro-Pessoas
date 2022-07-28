@@ -1,8 +1,12 @@
+ 
 from typing import List
 from django.shortcuts import render
+from django.http import HttpResponse, Http404
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from .models import Pessoa
-from .forms import PessoaForm
+from .models import Pessoa, Contato
+from .forms import PessoaForm, ContatoForm
+from django.urls import reverse
+from django.shortcuts import get_object_or_404, redirect, render
 
 class ListaPessoaView(ListView):
     model = Pessoa
@@ -34,3 +38,38 @@ class PessoaUpdateView(UpdateView):
 class PessoaDeleteView(DeleteView):
     model = Pessoa
     success_url = '/pessoas/' 
+
+def contatos(request, pk):
+    contatos = Contato.objects.filter(pessoa=pk)
+    return render(request, 'contato/contato_list.html', {'contatos': contatos, 'pk_pessoa': pk})
+
+
+def contato_novo(request, pk_pessoa):
+    form = ContatoForm()
+    if request.method == "POST":
+        form = ContatoForm(request.POST)
+        if form.is_valid():
+            contato = form.save(commit=False)
+            contato.pessoa_id = pk_pessoa;
+            contato.save()
+            return redirect(reverse('pessoa.contatos', args=[pk_pessoa]))
+
+    return render(request, 'contato/contato_form.html', {'form': form})
+
+
+def contato_editar(request, pk_pessoa, pk):
+    contato = get_object_or_404(Contato, pk=pk)
+    form = ContatoForm(instance=contato)
+    if request.method == "POST":
+        form = ContatoForm(request.POST, instance=contato)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('pessoa.contatos', args=[pk_pessoa]))
+
+    return render(request, 'contato/contato_form.html', {'form': form})
+
+
+def contato_remover(request, pk_pessoa, pk):
+    contato = get_object_or_404(Contato, pk=pk)
+    contato.delete()
+    return redirect(reverse('pessoa.contatos', args=[pk_pessoa]))
