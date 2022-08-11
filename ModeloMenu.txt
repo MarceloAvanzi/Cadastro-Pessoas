@@ -1,0 +1,10 @@
+https://codepen.io/Naymapl/pen/zwdyyX
+
+https://www.rocketwp.com.br/83-melhores-menus-responsivos-em-css-e-html-gratuitos/
+
+Load static files: https://pt.stackoverflow.com/questions/15076/como-fa%C3%A7o-para-o-django-enxergar-o-css
+
+https://developer.mozilla.org/pt-BR/docs/Learn/Server-side/Django/skeleton_website
+
+Videos html, css e bootstrap
+https://www.youtube.com/watch?v=zKHxYWIjj3U

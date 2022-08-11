@@ -23,7 +23,6 @@ class ListaPessoaView(ListView):
 
         return queryset
 
-    
 
 class PessoaCreateView(CreateView):
     model = Pessoa
@@ -44,9 +43,9 @@ class PessoaDeleteView(DeleteView):
     model = Pessoa
     success_url = '/pessoas/' 
 
-def contatos(request, pk):
-    contatos = Contato.objects.filter(pessoa=pk)
-    return render(request, 'contato/contato_list.html', {'contatos': contatos, 'pk_pessoa': pk})
+def contatos(request, pk_pessoa):
+    contatos = Contato.objects.filter(pessoa=pk_pessoa)
+    return render(request, 'contato/contato_list.html', {'contatos': contatos, 'pk_pessoa': pk_pessoa})
 
 
 def contato_novo(request, pk_pessoa):
